@@ -13,7 +13,7 @@ const groq = new Groq({ apiKey: process.env.OPENAI_API_KEY });
 const systemMessage = process.env.SYSTEM_PROPMT!;
 
 type Message = {
-  role: any;
+  role: "system" | "user" | "assistant";
   content: string;
 };
 
@@ -72,23 +72,17 @@ export async function POST(req: NextRequest) {
       { data: { message: responseMessage, data: data } },
       { status: 200 }
     );
-  } catch (error: any) {
-    console.error(
-      "Error with Groq API:",
-      error.response?.data || error.message
-    );
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      {
-        error:
-          error.response?.data?.error?.message ||
-          "An unexpected error occurred.",
-      },
-      { status: error.response?.status || 500 }
+      { error: "Failed to fetch employee details", details: errorMessage },
+      { status: 500 }
     );
   }
 }
 
-export async function GET(req: NextRequest): Promise<NextResponse> {
+export async function GET(): Promise<NextResponse> {
   try {
     const employees: Employee[] | [] = await getEmployeeDetails();
 

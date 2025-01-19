@@ -15,8 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useQuery } from "@tanstack/react-query";
-import { APIGetEmployee } from "@/lib/api-service";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.

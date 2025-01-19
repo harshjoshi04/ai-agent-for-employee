@@ -6,8 +6,8 @@ type Employee = {
   email: string;
   salary: string;
 };
-let dbName = process.env.DB_NAME!;
-let Table = process.env.TABLE_NAME!;
+const dbName = process.env.DB_NAME!;
+const Table = process.env.TABLE_NAME!;
 
 export const insertDataInDB = async (employee: Employee): Promise<boolean> => {
   try {
